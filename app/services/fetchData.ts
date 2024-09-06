@@ -1,4 +1,6 @@
-export default function getData( url:string, allData = []) {
+import { Character } from "../lib/definitions";
+
+export default function getData( url:string, allData = []): Promise<Character[]> {
     return new Promise((resolve, reject) => fetch(url)
       .then(response => {
           if (response.status !== 200)  {

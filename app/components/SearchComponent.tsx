@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, ChangeEventHandler, useEffect, useRef, useState } from "react"
+import { ChangeEvent, Suspense, useEffect, useRef, useState } from "react"
 import { Character } from "../lib/definitions"
 import Card from "./Card";
 
@@ -17,7 +17,7 @@ const [searchedCharacters, setSearcCharacters] = useState<Character[] | null>(nu
             const array = characters.filter(character => character.name.toLowerCase().includes(seacrhTerm.toLowerCase()))
             setSearcCharacters(array)
         }
-    },[seacrhTerm])
+    },[seacrhTerm, characters])
 
     const timeoutHandler = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -27,7 +27,7 @@ const [searchedCharacters, setSearcCharacters] = useState<Character[] | null>(nu
         }
         timeoutHandler.current = setTimeout(() => {
             setSearchTerm(event.target.value);
-        }, 300);
+        }, 500);
     };
 
     return (
@@ -42,11 +42,13 @@ const [searchedCharacters, setSearcCharacters] = useState<Character[] | null>(nu
         onChange={handleChange}
         />
     </div>
-        <ul className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {searchedCharacters?.map(character => {
-                return <Card key={character.id} {...character} />
-            })}
-        </ul>
+        <Suspense fallback={<p>Loading characters...</p>}>
+            <ul className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {searchedCharacters?.map(character => {
+                    return <Card key={character.id} {...character} />
+                })}
+            </ul>
+        </Suspense>
     </>
     )
 }
