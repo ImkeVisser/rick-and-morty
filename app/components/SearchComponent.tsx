@@ -1,8 +1,9 @@
 'use client'
 
-import { ChangeEvent, Suspense, useEffect, useRef, useState } from "react"
+import { ChangeEvent, Suspense, useEffect, useState } from "react"
 import { Character } from "../lib/definitions"
 import Card from "./Card";
+import { useDebounce } from "../hooks/useDebounce";
 
 interface SearchComponentProps {
     characters: Character[]
@@ -11,23 +12,17 @@ interface SearchComponentProps {
 export default function SearchComponent({characters}: SearchComponentProps){
 const [seacrhTerm, setSearchTerm] = useState('');
 const [searchedCharacters, setSearcCharacters] = useState<Character[] | null>(null)
+const debouncedValue = useDebounce(seacrhTerm)
 
     useEffect(() => {
-        if(seacrhTerm){
-            const array = characters.filter(character => character.name.toLowerCase().includes(seacrhTerm.toLowerCase()))
-            setSearcCharacters(array)
-        }
-    },[seacrhTerm, characters])
-
-    const timeoutHandler = useRef<ReturnType<typeof setTimeout> | null>(null);
+       if(debouncedValue){
+        const array = characters.filter(character => character.name.toLowerCase().includes(debouncedValue.toLowerCase()))
+        setSearcCharacters(array)
+       }
+    },[debouncedValue, characters])
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (timeoutHandler.current) {
-            clearTimeout(timeoutHandler.current);
-        }
-        timeoutHandler.current = setTimeout(() => {
-            setSearchTerm(event.target.value);
-        }, 500);
+       setSearchTerm(event.target.value)
     };
 
     return (
