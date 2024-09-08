@@ -33,7 +33,7 @@ const debouncedValue = useDebounce(seacrhTerm)
         type="text" 
         id="search" 
         placeholder="Search..."
-        className="w-full bg-transparent autofill:bg-transparent py-2 border-b-2 border-green-600 outline-none focus:border-blue-400" 
+        className="w-full bg-transparent autofill:!bg-transparent py-2 border-b-2 border-green-600 outline-none focus:border-blue-400" 
         onChange={handleChange}
         />
     </div>

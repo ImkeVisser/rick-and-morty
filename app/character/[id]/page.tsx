@@ -3,6 +3,7 @@ import Image from "next/image";
 import fetchDetails from '../../services/fetchDetails'
 import { Suspense } from "react";
 import fetchDetailsFromList from "@/app/services/fetchDetailsFromList";
+import Top10List from "@/app/components/Top10List";
 
 interface CharacterDetailsPageProps {
   params: CharacterDetailsPageParam;
@@ -39,6 +40,9 @@ interface CharacterDetailsPageProps {
             )
           })}
         </ul>
+    </Suspense>
+    <Suspense fallback={<p>loading top 10...</p>}>
+      <Top10List />
     </Suspense>
   </main>
 }

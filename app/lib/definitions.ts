@@ -8,7 +8,7 @@ export type Character = {
     origin: LocationType
     location: LocationType
     image: string
-    episonde: string[]
+    episode: string[]
     url:string
     created: string
 }
@@ -16,6 +16,12 @@ export type Character = {
 type LocationType = {
     name: string
     url:string
+}
+
+export type LocationData = {
+    id:string
+    character: string
+    dimension: string
 }
 
 export type CharacterDetailsPageParam = {
