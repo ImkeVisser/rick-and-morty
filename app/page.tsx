@@ -1,14 +1,27 @@
+import { CharactersQuery } from "./lib/queries";
+import { getClient } from "./config/api";
+import {CharacterData } from "./lib/definitions";
 import SearchComponent from "./components/SearchComponent";
-import { Character } from "./lib/definitions";
-import getData from "./services/fetchData";
+import Top10 from "./components/Top10";
+import { ApolloWrapper } from "./config/appolo-wrapper";
 
 export default async function Home() {
 
-const characters: Character[] = await getData('https://rickandmortyapi.com/api/character');
+    const { data } = await getClient().query<CharacterData>({
+      query: CharactersQuery,
+      variables: { name: "Morty" },
+      context: {
+        fetchOptions: {
+          next: { revlidte: 10 },
+        },
+      },
+    });
 
    return(
     <main className="m-12">
-      <SearchComponent characters={characters} />
+      <Top10 />
+      <ApolloWrapper><SearchComponent characters={data.characters.results} /></ApolloWrapper>
     </main>
    )
 }
+

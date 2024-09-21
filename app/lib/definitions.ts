@@ -1,27 +1,57 @@
-export type Character = {
+export interface CharacterData {
+    characters: {
+        results: Character[]
+    }
+}
+
+export interface CharacterDetailsData {
+    character: CharacterDetails
+}
+export interface EpisodeData {
+    episodes: {
+        results: Episode[]
+    }
+}
+
+export interface Character {
     id: string
+    image: string
     name: string
     status: 'Alive' | 'Dead' | 'unknown'
+}
+
+export interface CharacterDetails extends Character {
     species?: string
     type?: string
     gender: 'Female' |'Male' | 'Genderless' | 'unknown'
     origin: LocationType
     location: LocationType
+    episode: EpisodeType[]
+}
+
+export interface Episode extends EpisodeType {
+    characters: EpisodeCharacter[]
+}
+
+type EpisodeCharacter = {
+    id: string
+    name: string
     image: string
-    episode: string[]
-    url:string
-    created: string
+    origin: {
+        dimension: string
+    }
 }
 
 type LocationType = {
     name: string
-    url:string
+    dimension: string
 }
 
-export type LocationData = {
-    id:string
-    character: string
-    dimension: string
+type EpisodeType = {
+    id: string
+    name:string
+    episode: string
+    air_date:string
 }
 
 export type CharacterDetailsPageParam = {
