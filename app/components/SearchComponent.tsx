@@ -22,7 +22,7 @@ export default function SearchComponent({characters}: SearchComponentProps){
         const characterList = data.characters.results.filter(character => character.name.toLowerCase().includes(debouncedValue.toLowerCase()))
         setSearcCharacters(characterList)
        }
-    },[debouncedValue])
+    },[debouncedValue, data.characters.results])
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
        setSearchTerm(event.target.value)
