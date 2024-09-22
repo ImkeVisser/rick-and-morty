@@ -7,7 +7,7 @@ export default function Card (character: Character) {
     const {id, name, image, status} = character
 
     return <li className="max-w-sm rounded overflow-hidden shadow-xl shadow-green-600">
-          <Link href={`/character/${id}`}>
+          <Link href={`/characters/${id}`}>
             <Image height={200} width={200} className="w-full" src={image} alt="portrait of character" />
             <div className="px-6 py-4 flex flex-col">
                 <p className="font-bold text-xl mb-2">{name}</p>

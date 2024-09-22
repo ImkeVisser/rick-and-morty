@@ -1,5 +1,6 @@
 export interface CharacterData {
     characters: {
+        info: InfoType
         results: Character[]
     }
 }
@@ -31,6 +32,13 @@ export interface CharacterDetails extends Character {
 
 export interface Episode extends EpisodeType {
     characters: EpisodeCharacter[]
+}
+
+type InfoType = {
+    count: number
+    pages: number
+    next: number
+    prev:number
 }
 
 type EpisodeCharacter = {

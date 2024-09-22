@@ -8,17 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "375px"
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+       darkgreen: "#023535",
+       lightgreen: "#C7FFED"
       },
     },
   },
-  daisyui: {
-    themes: ["acid"],
-  },
-  plugins: [
-    require('daisyui'),
-  ],
+  plugins: [],
 };
 export default config;
