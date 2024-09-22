@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const CharactersQuery = gql(`
+export const CHARACTERS_QUERY = gql(`
     query CharacterList($name: String, $page: Int) {
        characters(page: $page, filter: { name: $name }) {
         info {
@@ -19,8 +19,8 @@ export const CharactersQuery = gql(`
     }
   `)
 
-export const CharacterDetailsQuery = gql(`
-    query characterDetails($id: ID!) {
+export const CHARACTER_DETAILS_QUERY = gql(`
+    query CharacterDetails($id: ID!) {
         character(id: $id){
             id
             image
@@ -49,9 +49,15 @@ export const CharacterDetailsQuery = gql(`
     }
     `)
 
-export const EpisodesQuery = gql(`
-    query {
-        episodes {
+export const EPISODE_QUERY = gql(`
+    query EpisodeList($page: Int) {
+        episodes(page: $page) {
+            info {
+            count
+            pages
+            next
+            prev
+            }
             results {
             id
             name

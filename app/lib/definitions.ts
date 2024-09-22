@@ -10,6 +10,7 @@ export interface CharacterDetailsData {
 }
 export interface EpisodeData {
     episodes: {
+        info: InfoType
         results: Episode[]
     }
 }
@@ -51,8 +52,8 @@ type EpisodeCharacter = {
 }
 
 type LocationType = {
-    name: string
-    dimension: string
+    name?: string
+    dimension?: string
 }
 
 type EpisodeType = {

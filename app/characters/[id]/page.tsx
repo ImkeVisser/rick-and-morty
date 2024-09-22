@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { CharacterDetailsData, CharacterDetailsPageParam } from "../../lib/definitions";
 import { getClient } from "../../services/api";
-import { CharacterDetailsQuery } from "../../lib/queries";
+import { CHARACTER_DETAILS_QUERY} from "../../lib/queries";
 
 interface CharacterDetailsPageProps {
   params: CharacterDetailsPageParam;
@@ -13,7 +13,7 @@ export default async function Page(props: CharacterDetailsPageProps) {
   const {id} = props.params;
 
     const { data } = await getClient().query<CharacterDetailsData>({
-        query: CharacterDetailsQuery,
+        query: CHARACTER_DETAILS_QUERY,
         variables: {id},
         context: {
           fetchOptions: {
@@ -22,36 +22,34 @@ export default async function Page(props: CharacterDetailsPageProps) {
         },
     });
 
-  const {image, name, status, species, type, gender, location, origin, episode} = data.character
+  const {image, name, status, species,type, gender, location, origin, episode} = data.character
 
  return(
-  <main className="my-12 mx-4 xs:mx-6 sm:mx-12">
-   <Suspense fallback={<p>Loading character details...</p>}>
-    <section className="flex flex-col-reverse md:flex-row md:justify-between">
-      <div>
-        <h1 className="text-3xl md:text-5xl p-2 text-green-600 mb-4">{name}</h1>
-        {status && <p className="text-xl text-yellow-600 mb-4">Status: {status}</p>}
-        {species && <p className="text-xl text-yellow-600 mb-4">Species: {species}</p>}
-        {type && <p className="text-xl text-yellow-600 mb-4">Type: {type}</p>}
-        {gender && <p className="text-xl text-yellow-600 mb-4">Gender: {gender}</p>}
-        {origin.name && <p className="text-xl text-yellow-600 mb-4">Orgin Location: {origin.name}</p>}
-        {origin.dimension && <p className="text-xl text-yellow-600 mb-4">Orgin Dimension: {origin.dimension}</p>}
-        {location.name && <p className="text-xl text-yellow-600 mb-4">Last seen Location: {location.name}</p>}
-        {location.dimension && <p className="text-xl text-yellow-600 mb-4">Last seen Dimension: {location.dimension}</p>}
+  <main className="grid md:grid-cols-2 gap-6">
+    <div className="mx-4 xs:mx-6 sm:mx-12 md:ml-12 mt-12 lg:max-w-lg rounded shadow-xl shadow-green-600">
+      <Image height={200} width={200} className="w-full h-[300px] rounded-tl rounded-tr object-cover object-top" src={image} alt="portrait of character" />
+      <div className="px-6 py-4 flex flex-col">
+        <p className="mb-2"><span className="font-bold">name: </span>{name}</p>
+        {species && <p className="mb-2"><span className="font-bold">species: </span>{species}</p>}
+        {type && <p className="mb-2"><span className="font-bold">type: </span>{type}</p>}
+        <p className="font-bold mb-2"><span className="font-bold">gender: </span>{gender}</p>
+        {origin.name && <p className="mb-2"><span className="font-bold">location: </span>{origin.name}</p>}
+        {origin.dimension && <p className="mb-2"><span className="font-bold">dimension: </span>{origin.dimension}</p>}
       </div>
-      <Image height={400} width={400} src={image} alt="portrait of character" />
-    </section>
-    </Suspense>
-    <Suspense fallback={<p>Loading episode details...</p>}>
-    <p className="text-xl text-red-600 mb-4">Featured episodes: </p>
-      <ul>
-          {episode.map(ep => {
-            return (
-              <li key={ep.id} className="pl-8 text-lg text-red-600 mb-4">{ep.episode} - {ep.name}</li>
-            )
-          })}
-        </ul>
-    </Suspense>
+    </div>
+    <div className="mx-auto my-auto max-w-lg">
+      <h1 className="text-4xl mb-2">{name}</h1>
+      {status === "Alive" || status === "Dead" && <p className="mb-2">{name} is {status.toLowerCase()}</p>}
+      {location.name && location.dimension && <p className="mb-2">{name} was last seen in {location.name && location.name !== "unknown" && `${location.name} located in` } {location.dimension && location.dimension !== "unknown" ? location.dimension : 'a unknown'} dimension</p>}
+      <p className="mb-2">{name} is seen in episodes: </p>
+      <ul className="list-disc pl-6">
+        {episode.map(episode => {
+          return (
+            <li key={episode.id} className="mb-2">{episode.episode}: {episode.name} at {episode.air_date}</li>
+          )
+        })}
+      </ul>
+    </div>
   </main>
  )
 }
